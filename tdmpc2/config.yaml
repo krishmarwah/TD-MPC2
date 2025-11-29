@@ -1,18 +1,24 @@
 defaults:
-    - override hydra/launcher: submitit_local
+  - override hydra/launcher: submitit_local
 
-# environment
-task: dog-run
+# ===============================
+# Environment
+# ===============================
+task: walker-walk
 obs: state
 episodic: false
 
-# evaluation
-checkpoint: ???
+# ===============================
+# Evaluation
+# ===============================
+checkpoint: null
 eval_episodes: 10
 eval_freq: 50000
 
-# training
-steps: 10_000_000
+# ===============================
+# Training
+# ===============================
+steps: 200000
 batch_size: 256
 reward_coef: 0.1
 value_coef: 0.1
@@ -26,11 +32,13 @@ tau: 0.01
 discount_denom: 5
 discount_min: 0.95
 discount_max: 0.995
-buffer_size: 1_000_000
+buffer_size: 1000000
 exp_name: default
-data_dir: ???
+data_dir: logs
 
-# planning
+# ===============================
+# Planning (MPC)
+# ===============================
 mpc: true
 iterations: 6
 num_samples: 512
@@ -41,18 +49,24 @@ min_std: 0.05
 max_std: 2
 temperature: 0.5
 
-# actor
+# ===============================
+# Actor
+# ===============================
 log_std_min: -10
 log_std_max: 2
 entropy_coef: 1e-4
 
-# critic
+# ===============================
+# Critic (Value Head)
+# ===============================
 num_bins: 101
 vmin: -10
-vmax: +10
+vmax: 10
 
-# architecture
-model_size: ???
+# ===============================
+# Architecture
+# ===============================
+model_size: 5          # 5M parameter model (paper default)
 num_enc_layers: 2
 enc_dim: 256
 num_channels: 32
@@ -63,29 +77,41 @@ num_q: 5
 dropout: 0.01
 simnorm_dim: 8
 
-# logging
-wandb_project: ???
-wandb_entity: ???
-wandb_silent: false
+# ===============================
+# Logging (W&B FIXED)
+# ===============================
+
 enable_wandb: true
+
+wandb:
+  entity: krish23288
+  project: tdmpc2
+  name: ${task}_${now:%Y-%m-%d_%H-%M-%S}
+  dir: logs
+
 save_csv: true
 
-# misc
+# ===============================
+# Misc
+# ===============================
 compile: true
 save_video: true
 save_agent: true
 seed: 1
 
-# convenience
-work_dir: ???
-task_title: ???
-multitask: ???
-tasks: ???
-obs_shape: ???
-action_dim: ???
-episode_length: ???
-obs_shapes: ???
-action_dims: ???
-episode_lengths: ???
-seed_steps: ???
-bin_size: ???
+# ===============================
+# Convenience (must NOT be ???)
+# ===============================
+work_dir: logs
+task_title: ${task}
+
+multitask: false
+tasks: []
+obs_shape: null
+action_dim: null
+episode_length: null
+obs_shapes: null
+action_dims: null
+episode_lengths: null
+seed_steps: null
+bin_size: null
