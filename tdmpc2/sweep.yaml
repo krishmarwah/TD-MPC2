@@ -1,0 +1,9 @@
+defaults:
+  - config
+
+seed: [1, 2, 3, 4]
+cuda_id: [0, 1, 0, 1]
+
+enable_wandb: false
+wandb:
+  mode: offline
